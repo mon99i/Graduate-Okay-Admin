@@ -1,11 +1,11 @@
-import React from "react";
+import Login from "./Pages/Login";
 
 function App() {
-  return (
-    <div>
-      <p>adsfasdf</p>
-    </div>
-  );
+    return (
+        <div className="Login">
+            <Login />
+        </div>
+    )
 }
 
 export default App;
