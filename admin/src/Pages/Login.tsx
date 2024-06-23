@@ -1,9 +1,41 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
+import { submitLoginQuery } from './../queries/loginQuery';
+import { useMutation } from "@tanstack/react-query";
+import useInput from "../hooks/useInput";
+import { isEmpty } from "../utils/validate";
 
-export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+const Login: React.FC = () => {
+    const loginId = useInput("");
+    const password = useInput("");
+    const navigate = useNavigate();
+    const [isError, setError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+
+    const submitLoginMutation = useMutation({
+      mutationFn: (formData: { loginId: string; password: string }) => {
+        const { loginId, password } = formData;
+        return submitLoginQuery(loginId, password);
+      },
+      onSuccess: () => navigate("/main"),
+      onError: () => {
+        setErrorMessage("올바른 아이디/비밀번호를 입력해주세요.");
+        setError(true);
+      },
+    });
+
+    const submitLogin = async () => {
+      if (isEmpty(loginId.value, password.value)) {
+        setErrorMessage("아이디/비밀번호가 비어있습니다.");
+        setError(true);
+        return;
+      }
+      submitLoginMutation.mutate({
+        loginId: loginId.value,
+        password: password.value,
+      });
+    };
 
     return (
         <LoginPage>
@@ -11,35 +43,32 @@ export default function Login() {
                 <img src="/imgs/logo.png" alt="Logo" />
                 관리자 페이지
             </TitleWrap>
-
-            <ContentWrap>
-                <InputWrap>
-                    <LoginInput
-                    placeholder="아이디"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    />
-                </InputWrap>
-                <ErrorMessageWrap>올바른 아이디를 입력해주세요.</ErrorMessageWrap>
-                <InputWrap>
-                    <LoginInput
-                    placeholder="비밀번호"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    />
-                </InputWrap>
-                <ErrorMessageWrap>올바른 비밀번호를 입력해주세요.</ErrorMessageWrap>
-            </ContentWrap>
-
-            <div>
-                <LoginButton disabled={true}>로그인</LoginButton>
-            </div>
+                <ContentWrap>
+                    <InputWrap>
+                        <LoginInput
+                            placeholder="아이디"
+                            value={loginId.value}
+                            onChange={loginId.onChange}
+                            required
+                        />
+                    </InputWrap>
+                    <InputWrap>
+                        <LoginInput
+                            placeholder="비밀번호"
+                            type="password"
+                            value={password.value}
+                            onChange={password.onChange}
+                            required
+                        />
+                    </InputWrap>
+                {isError && <ErrorMessageWrap>{errorMessage}</ErrorMessageWrap>}
+                </ContentWrap>
+                <div>
+                <LoginButton onClick={submitLogin} disabled={!loginId.value || !password.value}>로그인</LoginButton>
+                </div>
         </LoginPage>
     );
 }
-
-// TODO: email, password 검사 과정 - hook 이용해서 확인
-// https://www.youtube.com/watch?v=IhUN42R3OsM
 
 const TitleWrap = styled.div`
   margin-top: 15px;
@@ -106,12 +135,14 @@ const ErrorMessageWrap = styled.div`
   color: #f43939c0;
   font-weight: 700;
   font-size: 14px;
+  margin-top: 10px;
 `;
 
 const LoginButton = styled.button`
   width: 100%;
   height: 40px;
   border: none;
+  margin-top: 10px;
   margin-bottom: 30px;
   font-weight: 700;
   background-color: #c5b5f6;
@@ -123,3 +154,5 @@ const LoginButton = styled.button`
     color: white;
   }
 `;
+
+export default Login;
