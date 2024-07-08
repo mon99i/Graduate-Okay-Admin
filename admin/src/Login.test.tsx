@@ -1,13 +1,16 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
+import { Cookies } from 'react-cookie';
 
 describe('Login Component', () => {
   let mock: MockAdapter;
+  let cookies: Cookies;
 
   beforeEach(() => {
     mock = new MockAdapter(axios);
+    cookies = new Cookies();
   });
 
   afterEach(() => {
@@ -17,8 +20,8 @@ describe('Login Component', () => {
   it('로그인 성공 테스트', async () => {
     mock.onPost('http://localhost:3000/admin/login').reply(200, {
       data: {
-        loginId: 'testuser',
-        nickname: 'Test User',
+        loginId: 'testid',
+        password: 'testpw',
         tokenInfo: {
           accessToken: 'mock-access-token',
           refreshToken: 'mock-refresh-token'
@@ -32,17 +35,17 @@ describe('Login Component', () => {
     const passwordInput = screen.getByPlaceholderText('비밀번호');
     const loginButton = screen.getByText('로그인');
 
-    fireEvent.change(loginInput, { target: { value: "admin" } });
-    fireEvent.change(passwordInput, { target: { value: "test" } });
+    fireEvent.change(loginInput, { target: { value: "testid" } });
+    fireEvent.change(passwordInput, { target: { value: "testpw" } });
 
     fireEvent.click(loginButton);
 
     await waitFor(() => {
-      expect(localStorage.getItem('loginId')).toBe('testuser');
+      expect(localStorage.getItem('loginId')).toBe('test');
     });
 
     await waitFor(() => {
-      expect(localStorage.getItem('nickname')).toBe('Test User');
+      expect(localStorage.getItem('password')).toBe('test');
     });
 
     await waitFor(() => {
@@ -66,8 +69,8 @@ describe('Login Component', () => {
     const passwordInput = screen.getByPlaceholderText('비밀번호');
     const loginButton = screen.getByText('로그인');
 
-    fireEvent.change(loginInput, { target: { value: 'testuser' } });
-    fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
+    fireEvent.change(loginInput, { target: { value: 'testf' } });
+    fireEvent.change(passwordInput, { target: { value: 'testf' } });
 
     fireEvent.click(loginButton);
 

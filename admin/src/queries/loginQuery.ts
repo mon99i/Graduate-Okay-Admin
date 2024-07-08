@@ -1,3 +1,31 @@
+export interface LoginResponse {
+  message: string;
+  tokenInfo: {
+    accessToken: string;
+    refereshToken: string;
+  }
+}
+
+export const submitLoginQuery = async (loginId: string, password: string) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const adminId = process.env.REACT_APP_ADMIN_ID;
+      const adminPw = process.env.REACT_APP_ADMIN_PW;
+      if (loginId === adminId && password === adminPw) {
+        resolve({ 
+          message: "로그인 성공" ,
+          tokenInfo: {
+            accessToken: "mock-access-token",
+            refreshToken: "mock-refresh-token",
+          }
+        });
+      } else {
+        reject(new Error("로그인 실패"));
+      }
+    }, 1000);
+  });
+};
+
 // 관리자 등록 후 새로운 관리자 등록 시 활용할 코드
 
 // import axios from "axios";
@@ -14,8 +42,8 @@
 //     })
 //     .then((response) => {
 //       localStorage.clear();
-//       localStorage.setItem("id", response?.data.data.id);
-//       localStorage.setItem("nickname", response?.data.data.nickname);
+//       localStorage.setItem("loginId", response?.data.data.loginId);
+//       localStorage.setItem("password", response?.data.data.password);
 //       localStorage.setItem(
 //         "refreshToken",
 //         response?.data.data.tokenInfo.refreshToken
@@ -25,15 +53,3 @@
 //       });
 //     });
 // };
-
-export const submitLoginQuery = async (loginId: string, password: string) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (loginId === "admin" && password === "test") {
-        resolve({ message: "로그인 성공" });
-      } else {
-        reject(new Error("로그인 실패"));
-      }
-    }, 1000);
-  });
-};

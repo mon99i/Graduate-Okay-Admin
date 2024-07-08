@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
-import { submitLoginQuery } from './../queries/loginQuery';
+import { submitLoginQuery } from '../../queries/loginQuery';
 import { useMutation } from "@tanstack/react-query";
-import useInput from "../hooks/useInput";
-import { isEmpty } from "../utils/validate";
+import useInput from "../../hooks/useInput";
+import { isEmpty } from "../../utils/validate";
+import { Cookies } from 'react-cookie';
 
 const Login: React.FC = () => {
     const loginId = useInput("");
@@ -12,14 +13,20 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
     const [isError, setError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const cookies = new Cookies();
 
     const submitLoginMutation = useMutation({
       mutationFn: (formData: { loginId: string; password: string }) => {
         const { loginId, password } = formData;
         return submitLoginQuery(loginId, password);
       },
-      onSuccess: () => navigate("/main"),
-      onError: () => {
+      onSuccess: (data: any) => {
+        localStorage.setItem('accessToken', data.tokenInfo.accessToken);
+        localStorage.setItem('refreshToken', data.tokenInfo.refreshToken);
+        cookies.set('accessToken', data.tokenInfo.accessToken, { path: '/'});
+        navigate("/main") 
+      },
+        onError: () => {
         setErrorMessage("올바른 아이디/비밀번호를 입력해주세요.");
         setError(true);
       },

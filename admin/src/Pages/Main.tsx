@@ -4,11 +4,9 @@ import styled from 'styled-components';
 
 const Main: React.FC = () => {
     const navigate = useNavigate();
-    //const [cookies, , removeCookie] = useCookies(["accessToken"]);
 
     const logout = () => {
         
-        //removeCookie("accessToken");
         localStorage.clear();
         navigate("/");
     };
@@ -31,3 +29,5 @@ const LogoutButton = styled.button`
 `;
 
 export default Main;
+
+// TODO : Main 페이지 없이 로그인 -> 헤더 첫 부분인 notice(공지사항 관리)로 navigate 할지
