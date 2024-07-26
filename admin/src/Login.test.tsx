@@ -18,10 +18,10 @@ describe('Login Component', () => {
   });
 
   it('로그인 성공 테스트', async () => {
-    mock.onPost('http://localhost:3000/admin/login').reply(200, {
+    mock.onPost('http://localhost:3000/login').reply(200, {
       data: {
-        loginId: 'testid',
-        password: 'testpw',
+        loginId: 'adminid',
+        password: 'adminpw',
         tokenInfo: {
           accessToken: 'mock-access-token',
           refreshToken: 'mock-refresh-token'
@@ -35,17 +35,17 @@ describe('Login Component', () => {
     const passwordInput = screen.getByPlaceholderText('비밀번호');
     const loginButton = screen.getByText('로그인');
 
-    fireEvent.change(loginInput, { target: { value: "testid" } });
-    fireEvent.change(passwordInput, { target: { value: "testpw" } });
+    fireEvent.change(loginInput, { target: { value: "adminid" } });
+    fireEvent.change(passwordInput, { target: { value: "adminpw" } });
 
     fireEvent.click(loginButton);
 
     await waitFor(() => {
-      expect(localStorage.getItem('loginId')).toBe('test');
+      expect(localStorage.getItem('loginId')).toBe('adminid');
     });
 
     await waitFor(() => {
-      expect(localStorage.getItem('password')).toBe('test');
+      expect(localStorage.getItem('password')).toBe('adminpw');
     });
 
     await waitFor(() => {
@@ -58,7 +58,7 @@ describe('Login Component', () => {
   });
 
   it('로그인 실패 테스트', async () => {
-    mock.onPost('http://localhost:3000/admin/login').reply(401, {
+    mock.onPost('http://localhost:3000/login').reply(401, {
       error: 'Unauthorized',
       message: 'Invalid credentials'
     });

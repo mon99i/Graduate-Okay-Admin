@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import useInput from "../../hooks/useInput";
 import { isEmpty } from "../../utils/validate";
 import { Cookies } from 'react-cookie';
+import { useAuth } from "../../context/AuthContext";
 
 const Login: React.FC = () => {
     const loginId = useInput("");
@@ -14,6 +15,7 @@ const Login: React.FC = () => {
     const [isError, setError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const cookies = new Cookies();
+    const { login } = useAuth();
 
     const submitLoginMutation = useMutation({
       mutationFn: (formData: { loginId: string; password: string }) => {
@@ -23,16 +25,18 @@ const Login: React.FC = () => {
       onSuccess: (data: any) => {
         localStorage.setItem('accessToken', data.tokenInfo.accessToken);
         localStorage.setItem('refreshToken', data.tokenInfo.refreshToken);
-        cookies.set('accessToken', data.tokenInfo.accessToken, { path: '/'});
-        navigate("/main") 
+        cookies.set('accessToken', data.tokenInfo.accessToken, { path: '/main'});
+        login();
+        navigate("/main");
       },
-        onError: () => {
+      onError: () => {
         setErrorMessage("올바른 아이디/비밀번호를 입력해주세요.");
         setError(true);
       },
     });
 
-    const submitLogin = async () => {
+    const submitLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault(); // 새로고침 방지
       if (isEmpty(loginId.value, password.value)) {
         setErrorMessage("아이디/비밀번호가 비어있습니다.");
         setError(true);
@@ -50,6 +54,7 @@ const Login: React.FC = () => {
                 <img src="/imgs/logo.png" alt="Logo" />
                 관리자 페이지
             </TitleWrap>
+            <form onSubmit={submitLogin}>
                 <ContentWrap>
                     <InputWrap>
                         <LoginInput
@@ -68,11 +73,10 @@ const Login: React.FC = () => {
                             required
                         />
                     </InputWrap>
-                {isError && <ErrorMessageWrap>{errorMessage}</ErrorMessageWrap>}
+                    {isError && <ErrorMessageWrap>{errorMessage}</ErrorMessageWrap>}
                 </ContentWrap>
-                <div>
-                <LoginButton onClick={submitLogin} disabled={!loginId.value || !password.value}>로그인</LoginButton>
-                </div>
+                <LoginButton type="submit" disabled={!loginId.value || !password.value} className="hover:bg-violet-400">로그인</LoginButton>
+            </form>
         </LoginPage>
     );
 }
