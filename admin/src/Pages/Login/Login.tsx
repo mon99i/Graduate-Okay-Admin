@@ -25,7 +25,7 @@ const Login: React.FC = () => {
       onSuccess: (data: any) => {
         localStorage.setItem('accessToken', data.tokenInfo.accessToken);
         localStorage.setItem('refreshToken', data.tokenInfo.refreshToken);
-        cookies.set('accessToken', data.tokenInfo.accessToken, { path: '/main'});
+        cookies.set('accessToken', data.tokenInfo.accessToken, { path: '/'});
         login();
         navigate("/main");
       },

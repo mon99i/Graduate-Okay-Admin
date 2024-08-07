@@ -5,6 +5,7 @@ import App from "./App";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import './index.css'; 
 import { AuthProvider } from "./context/AuthContext";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const queryClient = new QueryClient();
 const container = document.getElementById("root");
@@ -16,7 +17,9 @@ if (container) {
     <React.StrictMode>
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <Router>
+           <App />
+          </Router>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </AuthProvider>
