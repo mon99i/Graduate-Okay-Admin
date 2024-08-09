@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
+import api from '../../apis/api';
 
 interface NoticeProps {
     id: number;
@@ -23,14 +24,10 @@ const Notice: React.FC = () => {
 
     const fetchNotices = async (page: number = 0) => {
         try {
-            const res = await axios.get("http://localhost:5000/notice", {
+            const { data } = await axios.get(api.notice, {
                 params: { page, limit: itemsPerPage }
             });
-            console.log(res);
-
-            const { noticeList, totalCount } = res.data.data;
-            console.log(noticeList, totalCount);
-
+            const { noticeList, totalCount } = data.data;
             const sortedNotices = noticeList.sort((a: NoticeProps, b: NoticeProps) => a.id - b.id);
 
             setNotices(sortedNotices);

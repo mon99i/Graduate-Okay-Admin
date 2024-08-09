@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import api from "../../apis/api";
 
 interface NoticeDetailProps {
     id: number;
@@ -16,9 +17,9 @@ const NoticeDetail: React.FC = () => {
 
     const fetchNotices = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/notice/${id}`);
-            console.log(res);
-            const noticeList: NoticeDetailProps[] = res.data.data.noticeList;
+            const { data } = await axios.get(`${api.notice}/${id}`);
+            console.log(data);
+            const { noticeList } = data.data;
             console.log(noticeList);
 
             setNotices(noticeList);
