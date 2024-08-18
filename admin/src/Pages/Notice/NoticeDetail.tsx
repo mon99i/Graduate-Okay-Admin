@@ -7,36 +7,89 @@ interface NoticeDetailProps {
     id: number;
     title: string;
     content: string;
-    createdAt: string;
+    createdAt?: string;
 }
 
 const NoticeDetail: React.FC = () => {
-    const {id} = useParams<{ id: string }>();
-    const [notices, setNotices] = useState<NoticeDetailProps[]>([]);
+    const { id } = useParams();
+    const [notice, setNotice] = useState<NoticeDetailProps | null>(null);
     const navigate = useNavigate();
 
-    const fetchNotices = async () => {
+    const fetchNotice = async (id: string) => {
         try {
             const { data } = await axios.get(`${api.notice}/${id}`);
-            console.log(data);
-            const { noticeList } = data.data;
-            console.log(noticeList);
 
-            setNotices(noticeList);
+            console.log(data);
+            setNotice(data);
         } catch (error) {
-            console.error("Error fetching notices:", error);
+            console.error("Error fetching notice:", error);
+        }
+    };
+
+    const handleDelete = async () => {
+        const confirmDelete = window.confirm("삭제하시겠습니까?");
+        if (confirmDelete && id) {
+            try {
+                await axios.delete(`${api.notice}/${id}`);
+
+                alert("삭제가 완료되었습니다.");
+                navigate('/notice');
+            } catch (error) {
+                console.error("Error deleting notice:", error);
+                alert("삭제 중 오류가 발생했습니다.");
+            }
         }
     };
 
     useEffect(() => {
-        fetchNotices();
-    }, []);
+        if (id) {
+            fetchNotice(id);
+        }
+    }, [id]);
 
-    return(
-        <div>
-            <p></p>
+    if (!notice) {
+        return (
+            <div className="flex items-center">
+                <p>일시적인 오류입니다.</p>
+                <button 
+                    onClick={() => navigate('/notice')} 
+                    className="ml-3 w-20 h-8 bg-black text-white rounded-md"
+                >
+                    돌아가기
+                </button>
+            </div>
+        )
+    }
+
+    return (
+        <div className="container mx-60 py-16">
+            <h1 className="text-2xl font-bold mb-2">{notice.title}</h1>
+            <div className="flex items-center mb-3">
+                <p className="text-gray-600">{notice.createdAt}</p>
+                <button 
+                    onClick={() => navigate('/notice')} 
+                    className="px-3 rounded-md flex items-center"
+                >
+                    <img 
+                        src="/imgs/edit.png"
+                        alt="수정"
+                        className="w-4 h-4"
+                    />
+                </button>
+                <button 
+                    onClick={handleDelete}
+                    className="rounded-md flex items-center"
+                >
+                    <img 
+                        src="/imgs/delete.png"
+                        alt="삭제"
+                        className="w-4 h-4"
+                    />
+                </button>
+            </div>
+            <div className="whitespace-pre-wrap">{notice.content}</div>
         </div>
-    )
+    );
 };
 
 export default NoticeDetail;
