@@ -12,15 +12,13 @@ interface NoticeDetailProps {
 
 const NoticeDetail: React.FC = () => {
     const { id } = useParams();
-    const [notice, setNotice] = useState<NoticeDetailProps | null>(null);
+    const [notice, setNotice] = useState<NoticeDetailProps>();
     const navigate = useNavigate();
 
     const fetchNotice = async (id: string) => {
         try {
             const { data } = await axios.get(`${api.notice}/${id}`);
-
-            console.log(data);
-            setNotice(data);
+            setNotice(data);    
         } catch (error) {
             console.error("Error fetching notice:", error);
         }
@@ -31,7 +29,6 @@ const NoticeDetail: React.FC = () => {
         if (confirmDelete && id) {
             try {
                 await axios.delete(`${api.notice}/${id}`);
-
                 alert("삭제가 완료되었습니다.");
                 navigate('/notice');
             } catch (error) {
@@ -41,7 +38,7 @@ const NoticeDetail: React.FC = () => {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => {   
         if (id) {
             fetchNotice(id);
         }
@@ -49,11 +46,11 @@ const NoticeDetail: React.FC = () => {
 
     if (!notice) {
         return (
-            <div className="flex items-center">
-                <p>일시적인 오류입니다.</p>
+            <div className="flex flex-col items-center justify-center">
+                <p>존재하지 않는 글입니다.</p>
                 <button 
                     onClick={() => navigate('/notice')} 
-                    className="ml-3 w-20 h-8 bg-black text-white rounded-md"
+                    className="m-2 w-20 h-8 bg-black text-white rounded-md"
                 >
                     돌아가기
                 </button>
@@ -67,7 +64,7 @@ const NoticeDetail: React.FC = () => {
             <div className="flex items-center mb-3">
                 <p className="text-gray-600">{notice.createdAt}</p>
                 <button 
-                    onClick={() => navigate('/notice')} 
+                    onClick={() => navigate(`/notice/edit/${id}`)} 
                     className="px-3 rounded-md flex items-center"
                 >
                     <img 
@@ -87,7 +84,7 @@ const NoticeDetail: React.FC = () => {
                     />
                 </button>
             </div>
-            <div className="whitespace-pre-wrap">{notice.content}</div>
+            <div className="px-3 py-2 whitespace-pre-wrap">{notice.content}</div>
         </div>
     );
 };
