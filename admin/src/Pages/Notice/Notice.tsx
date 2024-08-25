@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import api from '../../apis/api';
+import ITEMS_PER_PAGE from './../../utils/constants';
 
 interface NoticeProps {
     id: number;
@@ -15,11 +16,11 @@ const Notice: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [pageCount, setPageCount] = useState(0);
     const [totalCount, setTotalCount] = useState(0);
-    const itemsPerPage = 10;
     const navigate = useNavigate();
+    const itemsPerPage = ITEMS_PER_PAGE;
 
     const handleNewNotice = () => {
-        navigate('/notice');
+        navigate('/notice/new');
     }
 
     const handleNotice = (id: number) => {
