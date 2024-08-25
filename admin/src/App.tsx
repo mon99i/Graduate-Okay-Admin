@@ -10,6 +10,8 @@ import Admin from './pages/Admin/Admin';
 import Layout from './component/Layout/Layout';
 import { useAuth } from './context/AuthContext';
 import NoticeDetail from './pages/Notice/NoticeDetail';
+import NoticeWrite from './pages/Notice/NoticeWrite';
+import NoticeEdit from './pages/Notice/NoticeEdit';
 
 const App: React.FC = () => {
   const { isLoggedIn } = useAuth();
@@ -22,6 +24,8 @@ const App: React.FC = () => {
             <Route path="/" element={<Main />} />
             <Route path="/notice" element={<Notice />} />
             <Route path="/notice/:id" element={<NoticeDetail />} />
+            <Route path="/notice/new" element={<NoticeWrite />} />
+            <Route path="/notice/edit/:id" element={<NoticeEdit />} />
             <Route path="/lecture" element={<Lecture />} />
             <Route path="/review" element={<Review />} />
             <Route path="/user" element={<User />} />
