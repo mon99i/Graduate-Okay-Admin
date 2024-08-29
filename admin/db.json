@@ -69,5 +69,80 @@
                 }
             ]
         }
+    },
+    "admin" : {
+        "status": "OK",
+        "code": 200,
+        "data": {
+            "totalCount": 12,
+            "maxPageCount": 2,
+            "adminList": [
+                {
+                    "id": 1,
+                    "loginId": "admin1",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                },
+                {
+                    "id": 2,
+                    "loginId": "admin2",
+                    "createdAt": "2023-10-21"
+                },
+                {
+                    "id": 3,
+                    "loginId": "admin3",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                },
+                {
+                    "id": 4,
+                    "loginId": "admin4",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                },
+                {
+                    "id": 6,
+                    "loginId": "admin6",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                },
+                {
+                    "id": 5,
+                    "loginId": "admin5",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                },
+                {
+                    "id": 7,
+                    "loginId": "admin7",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                },
+                {
+                    "id": 8,
+                    "loginId": "admin8",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                },
+                {
+                    "id": 9,
+                    "loginId": "admin9",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                },
+                {
+                    "id": 10,
+                    "loginId": "admin10",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                },
+                {
+                    "id": 11,
+                    "loginId": "admin11",
+                    "createdAt": "2023-10-21",
+                    "updatedAt": "2023-10-22"
+                }
+            ]
+        }
     }
 }
