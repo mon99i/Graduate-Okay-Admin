@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import api from '../../apis/api';
-import ITEMS_PER_PAGE from './../../utils/constants';
+import ITEMS_PER_PAGE from '../../utils/constants';
 
 interface NoticeProps {
     id: number;
@@ -15,7 +15,6 @@ const Notice: React.FC = () => {
     const [notices, setNotices] = useState<NoticeProps[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [pageCount, setPageCount] = useState(0);
-    const [totalCount, setTotalCount] = useState(0);
     const navigate = useNavigate();
     const itemsPerPage = ITEMS_PER_PAGE;
 
@@ -36,7 +35,6 @@ const Notice: React.FC = () => {
             const sortedNotices = noticeList.sort((a: NoticeProps, b: NoticeProps) => a.id - b.id);
 
             setNotices(sortedNotices);
-            setTotalCount(totalCount);
             setPageCount(Math.ceil(totalCount / itemsPerPage));
         } catch (error) {
             console.error("Error fetching notices:", error);
@@ -58,10 +56,15 @@ const Notice: React.FC = () => {
         <div className="container mx-16 py-16">
             <div className='grid justify-items-end'>
                 <button
-                    className='border border-black rounded-md border-2 p-1 text-xl m-4'
+                    className='border border-black rounded-md border-2 p-1 text-xl m-4 hover:bg-gray-300 flex items-center'
                     onClick={handleNewNotice}
                 >
-                새 글 작성
+                    <img
+                            src="/imgs/add.png"
+                            alt="새 글 작성"
+                            className="w-4 h-4 mr-1"
+                        />
+                    <span>새 글 작성</span>
                 </button>
             </div>
             <table className="min-w-full bg-white border border-gray-200">
