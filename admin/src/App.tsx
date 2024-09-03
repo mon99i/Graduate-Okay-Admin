@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from './Pages/Login/Login.tsx';
+import Login from './Pages/Login/Login';
 import Main from './Pages/Main';
 import Notice from './Pages/Notice/Notice';
 import Lecture from './Pages/Lecture/Lecture';
