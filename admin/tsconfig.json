@@ -20,6 +20,10 @@
     "noEmit": true,
     "jsx": "react-jsx",
     //"allowImportingTsExtensions": true
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*", "Pages/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
