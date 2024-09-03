@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import Login from './pages/Login/Login';
+import Login from './Pages/Login/Login';
 import { Cookies } from 'react-cookie';
 
 describe('Login Component', () => {

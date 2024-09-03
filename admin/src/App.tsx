@@ -1,17 +1,17 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login/Login';
-import Main from './pages/Main';
-import Notice from './pages/Notice/Notice';
-import Lecture from './pages/Lecture/Lecture';
-import Review from './pages/Review/Review';
-import User from './pages/User/User';
-import Admin from './pages/Admin/Admin';
+import Login from './Pages/Login/Login';
+import Main from './Pages/Main';
+import Notice from './Pages/Notice/Notice';
+import Lecture from './Pages/Lecture/Lecture';
+import Review from './Pages/Review/Review';
+import User from './Pages/User/User';
+import Admin from './Pages/Admin/Admin';
 import Layout from './component/Layout/Layout';
 import { useAuth } from './context/AuthContext';
-import NoticeDetail from './pages/Notice/NoticeDetail';
-import NoticeWrite from './pages/Notice/NoticeWrite';
-import NoticeEdit from './pages/Notice/NoticeEdit';
+import NoticeDetail from './Pages/Notice/NoticeDetail';
+import NoticeWrite from './Pages/Notice/NoticeWrite';
+import NoticeEdit from './Pages/Notice/NoticeEdit';
 
 const App: React.FC = () => {
   const { isLoggedIn } = useAuth();
