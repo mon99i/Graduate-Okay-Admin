@@ -16,6 +16,7 @@ const Admin: React.FC = () => {
     const [admins, setAdmins] = useState<AdminProps[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [pageCount, setPageCount] = useState(0);
+    const [loggedInId, setLoggedInId] = useState<string | null>(null);
     const navigate = useNavigate();
     const itemsPerPage = ITEMS_PER_PAGE;
 
@@ -23,13 +24,23 @@ const Admin: React.FC = () => {
         navigate('/admin/new');
     }
 
-    const handleEditAdmin = () => {
-
+    const handleEditAdmin = (id: number) => {
+        navigate(`/admin/edit/${id}`);
     }
 
-    const handleDeleteAdmin = () => {
-
-    }
+    const handleDeleteAdmin = async (id: number) => {
+        const confirmDelete = window.confirm("관리자를 삭제하시겠습니까?");
+        if (confirmDelete) {
+            try {
+                await axios.delete(`${api.admin}/${id}`);
+                setAdmins((prevAdmins) => prevAdmins.filter(admin => admin.id !== id));
+                alert("관리자가 성공적으로 삭제되었습니다.");
+            } catch (error) {
+                console.error("관리자 삭제 중 오류 발생:", error);
+                alert("관리자를 삭제하는 중 오류가 발생했습니다.");
+            }
+        }
+    };
 
     const fetchAdmins = async (page: number = 0) => {
         try {
@@ -48,6 +59,9 @@ const Admin: React.FC = () => {
 
     useEffect(() => {
         fetchAdmins(currentPage);
+
+        const storedLoginId = localStorage.getItem("loginId");
+        setLoggedInId(storedLoginId);
     }, [currentPage]);
 
     const handlePageChange = (selectedItem: { selected: number }) => {
@@ -60,12 +74,6 @@ const Admin: React.FC = () => {
     return (
         <div className="container mx-96 py-16">
             <div className='flex justify-end'>
-                <button
-                    className='border border-black rounded-md border-2 p-1 text-l my-4 hover:bg-gray-300'
-                    onClick={handleNewAdmin}
-                >
-                내 비밀번호 변경
-                </button>
                 <button
                     className='border border-black rounded-md border-2 p-1 text-l my-4 ml-2 hover:bg-gray-300 flex items-center'
                     onClick={handleNewAdmin}
@@ -84,47 +92,57 @@ const Admin: React.FC = () => {
                         <th className="border-x py-2 px-4 text-left text-gray-600">id</th>
                         <th className="border-x py-2 px-4 text-left text-gray-600">관리자 아이디</th>
                         <th className="border-x py-2 px-4 text-left text-gray-600">생성일</th>
-                        <th className="border-x py-2 px-4 text-left text-gray-600">변경일</th>
+                        <th className="border-x py-2 px-4 text-left text-gray-600">비밀번호 수정일</th>
                         <th className="border-x py-2 px-2 text-center text-sm text-gray-600">수정</th>
                         <th className="border-x py-2 px-2 text-center text-sm text-gray-600">삭제</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {currentAdmins.map((admin) => (
-                        <tr key={admin.id} className="border hover:bg-gray-50">
-                            <td className="border w-8 py-2 px-4">{admin.id}</td>
-                            <td className="w-32 border py-2 px-4">
-                                <div className='w-32 truncate'>{admin.loginId}</div>
-                            </td>
-                            <td className="w-32 border py-2 px-4">
-                                <div className='w-32'>{admin.createdAt}</div>
-                            </td>
-                            <td className="w-32 border py-2 px-4">
-                                <div className='w-32'>{admin.updatedAt}</div>
-                            </td>
-                            <td className="w-8 border py-2 px-4">
-                                <button className="flex items-center">
-                                    <img 
-                                        src="/imgs/edit.png"
-                                        alt="수정"
-                                        className="w-4 h-4"
-                                        onClick={handleEditAdmin}
-                                    />
-                                </button>
-                            </td>
-                            <td className="w-8 border py-2 px-4">
-                                <button className="flex items-center">
-                                    <img 
-                                        src="/imgs/delete.png"
-                                        alt="삭제"
-                                        className="w-4 h-4"
-                                        onClick={handleDeleteAdmin}
-                                    />
-                                </button>
-                            </td>
-                         </tr>
-                    ))}
-                </tbody>
+                {currentAdmins.map((admin) => (
+                    <tr key={admin.id} className="border hover:bg-gray-50">
+                        <td className="border w-8 py-2 px-4">{admin.id}</td>
+                        <td className="w-32 border py-2 px-4">
+                            <div className='w-32 truncate'>
+                                {loggedInId !== admin.loginId && admin.id === 1 ? '*****' : admin.loginId}
+                            </div>
+                        </td>
+                        <td className="w-32 border py-2 px-4">
+                            <div className='w-32'>{admin.createdAt}</div>
+                        </td>
+                        <td className="w-32 border py-2 px-4">
+                            <div className='w-32'>{admin.updatedAt}</div>
+                        </td>
+                        <td className="w-8 border py-2 px-4">
+                            {loggedInId === admin.loginId && (
+                            <button className="flex items-center">
+                                <img 
+                                    src="/imgs/edit.png"
+                                    alt="수정"
+                                    className="w-4 h-4"
+                                    onClick={() => handleEditAdmin(admin.id)}
+                                />
+                            </button>
+                            )}
+                        </td>
+                        <td className="w-8 border py-2 px-4">
+                            { (loggedInId === process.env.REACT_APP_ADMIN_ID
+                                ? loggedInId !== admin.loginId
+                                : loggedInId === admin.loginId
+                            )
+                            && (
+                            <button className="flex items-center">
+                                <img 
+                                    src="/imgs/delete.png"
+                                    alt="삭제"
+                                    className="w-4 h-4"
+                                    onClick={() => handleDeleteAdmin(admin.id)}
+                                />
+                            </button>
+                            )}
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
             </table>
             <div className="mt-8">
                 <ReactPaginate
