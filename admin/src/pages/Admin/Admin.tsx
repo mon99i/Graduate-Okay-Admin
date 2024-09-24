@@ -25,7 +25,7 @@ const Admin: React.FC = () => {
     }
 
     const handleEditAdmin = (id: number) => {
-        navigate(`/admin/edit/${id}`);
+        navigate(`/admin/${id}`);
     }
 
     const handleDeleteAdmin = async (id: number) => {
