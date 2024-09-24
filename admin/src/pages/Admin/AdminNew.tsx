@@ -27,7 +27,6 @@ const SignUpForm = () => {
                 return true;
             }
         } catch (error) {
-            console.error("아이디 확인 중 오류 발생:", error);
             setLoginIdError("아이디 확인 중 오류가 발생했습니다.");
             return false;
         }
@@ -62,8 +61,7 @@ const SignUpForm = () => {
             alert("관리자 등록 성공!");
             navigate('/admin');
         } catch (error) {
-            console.error("post 오류 발생:", error);
-            alert("등록에 실패했습니다.");
+            alert("관리자 등록에 실패했습니다. 입력 정보를 다시 확인해주세요.");
         }
     };
 
@@ -71,7 +69,7 @@ const SignUpForm = () => {
         <div className="flex items-center justify-center">
             <form 
                 onSubmit={handleSubmit}
-                className="bg-white w-96 p-8 rounded-md shadow-md w-full max-w-lg"
+                className="bg-white w-96 p-8 rounded-md shadow-md max-w-lg"
             >
                 <h2 className="text-2xl font-bold mb-6 text-center">관리자 등록</h2>
 
