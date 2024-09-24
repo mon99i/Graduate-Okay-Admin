@@ -13,6 +13,7 @@ import NoticeDetail from './pages/Notice/NoticeDetail';
 import NoticeWrite from './pages/Notice/NoticeWrite';
 import NoticeEdit from './pages/Notice/NoticeEdit';
 import AdminNew from 'pages/Admin/AdminNew';
+import AdminEdit from 'pages/Admin/AdminEdit';
 
 const App: React.FC = () => {
   const { isLoggedIn } = useAuth();
@@ -32,6 +33,7 @@ const App: React.FC = () => {
             <Route path="/user" element={<User />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/new" element={<AdminNew />} />
+            <Route path="/admin/:id" element={<AdminEdit />} />
             <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (
