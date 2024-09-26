@@ -4,7 +4,7 @@ import ITEMS_PER_PAGE from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../../apis/api";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 interface AdminProps {
     id: number;
