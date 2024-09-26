@@ -4,6 +4,7 @@ import ITEMS_PER_PAGE from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../../apis/api";
+import { useAuth } from "context/AuthContext";
 
 interface AdminProps {
     id: number;
@@ -18,6 +19,8 @@ const Admin: React.FC = () => {
     const [pageCount, setPageCount] = useState(0);
     const [loggedInId, setLoggedInId] = useState<string | null>(null);
     const navigate = useNavigate();
+    const { logout } = useAuth();
+
     const itemsPerPage = ITEMS_PER_PAGE;
 
     const handleNewAdmin = () => {
@@ -32,15 +35,21 @@ const Admin: React.FC = () => {
         const confirmDelete = window.confirm("관리자를 삭제하시겠습니까?");
         if (confirmDelete) {
             try {
-                await axios.delete(`${api.admin}/${id}`);
+                if (loggedInId === process.env.REACT_APP_ADMIN_ID) {  
+                    await axios.delete(`${api.admin}/${id}`);
+                } else {
+                    await axios.delete(`${api.admin}`);
+                    alert("계정이 삭제되어 로그인 화면으로 돌아갑니다.");
+                    logout();
+                }
                 setAdmins((prevAdmins) => prevAdmins.filter(admin => admin.id !== id));
-                alert("관리자가 성공적으로 삭제되었습니다.");
             } catch (error) {
                 console.error("관리자 삭제 중 오류 발생:", error);
                 alert("관리자를 삭제하는 중 오류가 발생했습니다.");
             }
         }
     };
+    
 
     const fetchAdmins = async (page: number = 0) => {
         try {
@@ -53,7 +62,7 @@ const Admin: React.FC = () => {
             setAdmins(sortedAdmins);
             setPageCount(Math.ceil(totalCount / itemsPerPage));
         } catch (error) {
-            console.error("Error fetching notices:", error);
+            console.error("관리자 목록 조회 중 오류 발생", error);
         }
     };
 
