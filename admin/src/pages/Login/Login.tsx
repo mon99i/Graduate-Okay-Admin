@@ -36,7 +36,7 @@ const Login: React.FC = () => {
     });
 
     const submitLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault(); // 새로고침 방지
+      event.preventDefault();
       if (isEmpty(loginId.value, password.value)) {
         setErrorMessage("아이디/비밀번호가 비어있습니다.");
         setError(true);

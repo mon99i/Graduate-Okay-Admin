@@ -57,7 +57,7 @@ const SignUpForm = () => {
         }
 
         try {
-            await axios.post(`${api.admin}s`, { loginId, password });
+            await axios.post(`${api.admin}`, { loginId, password });
             alert("관리자 등록 성공!");
             navigate('/admin');
         } catch (error) {
