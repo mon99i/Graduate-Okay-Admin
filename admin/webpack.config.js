@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx', // 엔트리 파일 설정
@@ -24,7 +25,10 @@ module.exports = {
     ],
   },
   plugins: [
-    // 필요한 플러그인을 여기에 추가
+    new HtmlWebpackPlugin({
+      template: './src/index.html', // 템플릿 파일의 경로
+      filename: 'index.html',       // 출력 파일 이름
+    }),
   ],
   mode: 'production', // 프로덕션 모드로 설정
 };
