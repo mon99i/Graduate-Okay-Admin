@@ -1,78 +1,84 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from "@tanstack/react-query";
-import useInput from "../../hooks/useInput";
-import { isEmpty } from "../../utils/validate";
-import { useAuth } from "../../context/AuthContext";
+import { useMutation } from '@tanstack/react-query';
+import useInput from '../../hooks/useInput';
+import { isEmpty } from '../../utils/validate';
+import { useAuth } from '../../context/AuthContext';
 
 const Login: React.FC = () => {
-    const loginId = useInput("");
-    const password = useInput("");
-    const navigate = useNavigate();
-    const [isError, setError] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>("");
-    const { login } = useAuth();
+  const loginId = useInput('');
+  const password = useInput('');
+  const navigate = useNavigate();
+  const [isError, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const { login } = useAuth();
 
-    const submitLoginMutation = useMutation({
-      mutationFn: async (formData: { loginId: string; password: string }) => {
-        const { loginId, password } = formData;
-        await login(loginId, password);
-      },
-      onSuccess: () => {
-        navigate("/main");
-      },
-      onError: () => {
-        setErrorMessage("올바른 아이디/비밀번호를 입력해주세요.");
-        setError(true);
-      },
+  const submitLoginMutation = useMutation({
+    mutationFn: async (formData: { loginId: string; password: string }) => {
+      const { loginId, password } = formData;
+      await login(loginId, password);
+    },
+    onSuccess: () => {
+      navigate('/main');
+    },
+    onError: () => {
+      setErrorMessage('올바른 아이디/비밀번호를 입력해주세요.');
+      setError(true);
+    },
+  });
+
+  const submitLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isEmpty(loginId.value, password.value)) {
+      setErrorMessage('아이디/비밀번호가 비어있습니다.');
+      setError(true);
+      return;
+    }
+    submitLoginMutation.mutate({
+      loginId: loginId.value,
+      password: password.value,
     });
+  };
 
-    const submitLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (isEmpty(loginId.value, password.value)) {
-        setErrorMessage("아이디/비밀번호가 비어있습니다.");
-        setError(true);
-        return;
-      }
-      submitLoginMutation.mutate({
-        loginId: loginId.value,
-        password: password.value,
-      });
-    };
-
-    return (
-        <LoginPage>
-            <TitleWrap>
-                <img src="/imgs/logo.png" alt="Logo" />
-                관리자 페이지
-            </TitleWrap>
-            <form onSubmit={submitLogin}>
-                <ContentWrap>
-                    <InputWrap>
-                        <LoginInput
-                            placeholder="아이디"
-                            value={loginId.value}
-                            onChange={loginId.onChange}
-                            required
-                        />
-                    </InputWrap>
-                    <InputWrap>
-                        <LoginInput
-                            placeholder="비밀번호"
-                            type="password"
-                            value={password.value}
-                            onChange={password.onChange}
-                            required
-                        />
-                    </InputWrap>
-                    {isError && <ErrorMessageWrap>{errorMessage}</ErrorMessageWrap>}
-                </ContentWrap>
-                <LoginButton type="submit" disabled={!loginId.value || !password.value} className="hover:bg-violet-400">로그인</LoginButton>
-            </form>
-        </LoginPage>
-    );
-}
+  return (
+    <LoginPage>
+      <TitleWrap>
+        <img src="/imgs/logo.png" alt="Logo" />
+        관리자 페이지
+      </TitleWrap>
+      <form onSubmit={submitLogin}>
+        <ContentWrap>
+          <InputWrap>
+            <LoginInput
+              placeholder="아이디"
+              value={loginId.value}
+              onChange={loginId.onChange}
+              required
+            />
+          </InputWrap>
+          <InputWrap>
+            <LoginInput
+              placeholder="비밀번호"
+              type="password"
+              value={password.value}
+              onChange={password.onChange}
+              required
+            />
+          </InputWrap>
+          {isError && <ErrorMessageWrap>{errorMessage}</ErrorMessageWrap>}
+        </ContentWrap>
+        <LoginButton
+          type="submit"
+          disabled={!loginId.value || !password.value}
+          className="hover:bg-violet-400"
+        >
+          로그인
+        </LoginButton>
+      </form>
+    </LoginPage>
+  );
+};
 
 const TitleWrap = styled.div`
   margin-top: 15px;
@@ -80,7 +86,7 @@ const TitleWrap = styled.div`
   font-size: 20px;
   font-weight: 700;
   color: #c5b5f6;
-  
+
   img {
     display: block;
     margin: 0 auto 10px;
@@ -88,51 +94,51 @@ const TitleWrap = styled.div`
 `;
 
 const LoginPage = styled.div`
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    max-width: 500px;
-    padding: 0 20px;
-    left: 50%;
-    top: 20%;
-    bottom: 20%;
-    box-shadow: 0 0 0 1px #ccc;
-    background-color: #f2f1f1;
-    transform: translate(-50%, 0);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 20px;
+  left: 50%;
+  top: 20%;
+  bottom: 20%;
+  box-shadow: 0 0 0 1px #ccc;
+  background-color: #f2f1f1;
+  transform: translate(-50%, 0);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ContentWrap = styled.div`
-    margin-top: 25px;
-    flex: 1;
+  margin-top: 25px;
+  flex: 1;
 `;
 
 const InputWrap = styled.div`
-    display: flex;
-    border-radius: 8px;
-    padding: 16px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    background-color: white;
-    box-shadow: 0 0 0 0.5px #ccc;
+  display: flex;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  background-color: white;
+  box-shadow: 0 0 0 0.5px #ccc;
 `;
 
 const LoginInput = styled.input`
-    width: 100%;
-    outline: none;
-    border: none;
-    font-size: 16px;
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 16px;
 
-    &::placeholder {
-        color: #dadada;
-    }
+  &::placeholder {
+    color: #dadada;
+  }
 
-    &:focus::placeholder {
-        opacity: 0;
-    }
+  &:focus::placeholder {
+    opacity: 0;
+  }
 `;
 
 const ErrorMessageWrap = styled.div`

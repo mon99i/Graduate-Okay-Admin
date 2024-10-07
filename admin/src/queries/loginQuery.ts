@@ -3,7 +3,7 @@ export interface LoginResponse {
   tokenInfo: {
     accessToken: string;
     refereshToken: string;
-  }
+  };
 }
 
 export const submitLoginQuery = async (loginId: string, password: string) => {
@@ -12,15 +12,15 @@ export const submitLoginQuery = async (loginId: string, password: string) => {
       const adminId = process.env.REACT_APP_ADMIN_ID;
       const adminPw = process.env.REACT_APP_ADMIN_PW;
       if (loginId === adminId && password === adminPw) {
-        resolve({ 
-          message: "로그인 성공" ,
+        resolve({
+          message: '로그인 성공',
           tokenInfo: {
-            accessToken: "mock-access-token",
-            refreshToken: "mock-refresh-token",
-          }
+            accessToken: 'mock-access-token',
+            refreshToken: 'mock-refresh-token',
+          },
         });
       } else {
-        reject(new Error("로그인 실패"));
+        reject(new Error('로그인 실패'));
       }
     }, 1000);
   });

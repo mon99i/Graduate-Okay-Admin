@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import axios from 'axios';
 import api from './../apis/api';
 
@@ -11,9 +17,11 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [loginId, setLoginId] = useState<string>("");
+  const [loginId, setLoginId] = useState<string>('');
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -39,14 +47,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setLoginId(loginId);
       setIsLoggedIn(true);
     } catch (error) {
-      console.error("Login error:", error);
+      console.error('Login error:', error);
     }
   };
 
   const logout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
-    setLoginId("");
+    setLoginId('');
     setIsLoggedIn(false);
   };
 

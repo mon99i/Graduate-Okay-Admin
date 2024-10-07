@@ -1,148 +1,210 @@
 {
-    "notice" : {
-        "status": "OK",
-        "code": 200,
-        "data": {
-            "totalCount": 12,
-            "maxPageCount": 2,
-            "noticeList": [
-                {
-                    "id": 2,
-                    "title": "id값 2 타이틀입니다 id값 2 타이틀입니다 id값 2 타이틀입니다 id값 2 타이틀입니다 id값 2 타이틀입니다 id값 2 타이틀입니다 ",
-                    "content": "id값 2 콘텐츠입니다 id값 2 콘텐츠입니다 id값 2 콘텐츠입니다 id값 2 콘텐츠입니다 id값 2 콘텐츠입니다 id값 2 콘텐츠입니다",
-                    "createdAt": "2023-10-22"
-                },
-                {
-                    "id": 1,
-                    "title": "id값 1 타이틀입니다",
-                    "content": "id값 1 콘텐츠입니다"
-                },
-                {
-                    "id": 4,
-                    "title": "id값 4 타이틀입니다",
-                    "content": "id값 4 콘텐츠입니다"
-                },
-                {
-                    "id": 3,
-                    "title": "id값 3 타이틀입니다",
-                    "content": "id값 3 콘텐츠입니다"
-                },
-                {
-                    "id": 5,
-                    "title": "id값 5 타이틀입니다",
-                    "content": "id값 5 콘텐츠입니다"
-                },
-                {
-                    "id": 6,
-                    "title": "id값 6 타이틀입니다",
-                    "content": "id값 6 콘텐츠입니다"
-                },
-                {
-                    "id": 7,
-                    "title": "id값 7 타이틀입니다",
-                    "content": "id값 7 콘텐츠입니다"
-                },
-                {
-                    "id": 10,
-                    "title": "id값 10 타이틀입니다",
-                    "content": "id값 10 콘텐츠입니다"
-                },
-                {
-                    "id": 11,
-                    "title": "id값 11 타이틀입니다",
-                    "content": "id값 11 콘텐츠입니다"
-                },
-                {
-                    "id": 8,
-                    "title": "id값 8 타이틀입니다",
-                    "content": "id값 8 콘텐츠입니다"
-                },
-                {
-                    "id": 9,
-                    "title": "id값 9 타이틀입니다",
-                    "content": "id값 9 콘텐츠입니다"
-                },
-                {
-                    "id": 12,
-                    "title": "id값 12 타이틀입니다",
-                    "content": "id값 12 콘텐츠입니다"
-                }
-            ]
+  "notice": {
+    "status": "OK",
+    "code": 200,
+    "data": {
+      "totalCount": 12,
+      "maxPageCount": 2,
+      "noticeList": [
+        {
+          "id": 2,
+          "title": "id값 2 타이틀입니다 id값 2 타이틀입니다 id값 2 타이틀입니다 id값 2 타이틀입니다 id값 2 타이틀입니다 id값 2 타이틀입니다 ",
+          "content": "id값 2 콘텐츠입니다 id값 2 콘텐츠입니다 id값 2 콘텐츠입니다 id값 2 콘텐츠입니다 id값 2 콘텐츠입니다 id값 2 콘텐츠입니다",
+          "createdAt": "2023-10-22"
+        },
+        {
+          "id": 1,
+          "title": "id값 1 타이틀입니다",
+          "content": "id값 1 콘텐츠입니다"
+        },
+        {
+          "id": 4,
+          "title": "id값 4 타이틀입니다",
+          "content": "id값 4 콘텐츠입니다"
+        },
+        {
+          "id": 3,
+          "title": "id값 3 타이틀입니다",
+          "content": "id값 3 콘텐츠입니다"
+        },
+        {
+          "id": 5,
+          "title": "id값 5 타이틀입니다",
+          "content": "id값 5 콘텐츠입니다"
+        },
+        {
+          "id": 6,
+          "title": "id값 6 타이틀입니다",
+          "content": "id값 6 콘텐츠입니다"
+        },
+        {
+          "id": 7,
+          "title": "id값 7 타이틀입니다",
+          "content": "id값 7 콘텐츠입니다"
+        },
+        {
+          "id": 10,
+          "title": "id값 10 타이틀입니다",
+          "content": "id값 10 콘텐츠입니다"
+        },
+        {
+          "id": 11,
+          "title": "id값 11 타이틀입니다",
+          "content": "id값 11 콘텐츠입니다"
+        },
+        {
+          "id": 8,
+          "title": "id값 8 타이틀입니다",
+          "content": "id값 8 콘텐츠입니다"
+        },
+        {
+          "id": 9,
+          "title": "id값 9 타이틀입니다",
+          "content": "id값 9 콘텐츠입니다"
+        },
+        {
+          "id": 12,
+          "title": "id값 12 타이틀입니다",
+          "content": "id값 12 콘텐츠입니다"
         }
-    },
-    "admin" : {
-        "status": "OK",
-        "code": 200,
-        "data": {
-            "totalCount": 12,
-            "maxPageCount": 2,
-            "adminList": [
-                {
-                    "id": 1,
-                    "loginId": "admin1",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                },
-                {
-                    "id": 2,
-                    "loginId": "admin2",
-                    "createdAt": "2023-10-21"
-                },
-                {
-                    "id": 3,
-                    "loginId": "admin3",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                },
-                {
-                    "id": 4,
-                    "loginId": "admin4",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                },
-                {
-                    "id": 6,
-                    "loginId": "admin6",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                },
-                {
-                    "id": 5,
-                    "loginId": "admin5",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                },
-                {
-                    "id": 7,
-                    "loginId": "admin7",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                },
-                {
-                    "id": 8,
-                    "loginId": "admin8",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                },
-                {
-                    "id": 9,
-                    "loginId": "admin9",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                },
-                {
-                    "id": 10,
-                    "loginId": "admin10",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                },
-                {
-                    "id": 11,
-                    "loginId": "admin11",
-                    "createdAt": "2023-10-21",
-                    "updatedAt": "2023-10-22"
-                }
-            ]
-        }
+      ]
     }
+  },
+  "admin": {
+    "status": "OK",
+    "code": 200,
+    "data": {
+      "totalCount": 12,
+      "maxPageCount": 2,
+      "adminList": [
+        {
+          "id": 1,
+          "loginId": "adminid",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        },
+        {
+          "id": 2,
+          "loginId": "admin2",
+          "createdAt": "2023-10-21"
+        },
+        {
+          "id": 3,
+          "loginId": "admin3",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        },
+        {
+          "id": 4,
+          "loginId": "admin4",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        },
+        {
+          "id": 6,
+          "loginId": "admin6",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        },
+        {
+          "id": 5,
+          "loginId": "admin5",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        },
+        {
+          "id": 7,
+          "loginId": "admin7",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        },
+        {
+          "id": 8,
+          "loginId": "admin8",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        },
+        {
+          "id": 9,
+          "loginId": "admin9",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        },
+        {
+          "id": 10,
+          "loginId": "admin10",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        },
+        {
+          "id": 11,
+          "loginId": "admin11",
+          "createdAt": "2023-10-21",
+          "updatedAt": "2023-10-22"
+        }
+      ]
+    }
+  },
+  "admins": [
+    {
+      "id": "1",
+      "loginId": "adminid",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    },
+    {
+      "id": "3",
+      "loginId": "admin3",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    },
+    {
+      "id": "4",
+      "loginId": "admin4",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    },
+    {
+      "id": "5",
+      "loginId": "admin5",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    },
+    {
+      "id": "6",
+      "loginId": "admin6",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    },
+    {
+      "id": "7",
+      "loginId": "admin7",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    },
+    {
+      "id": "8",
+      "loginId": "admin8",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    },
+    {
+      "id": "9",
+      "loginId": "admin9",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    },
+    {
+      "id": "10",
+      "loginId": "admin10",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    },
+    {
+      "id": "11",
+      "loginId": "admin11",
+      "createdAt": "2023-10-21",
+      "updatedAt": "2023-10-22"
+    }
+  ]
 }
