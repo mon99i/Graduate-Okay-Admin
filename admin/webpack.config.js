@@ -26,8 +26,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html', // 템플릿 파일의 경로
-      filename: 'index.html',       // 출력 파일 이름
+      template: path.resolve(__dirname, 'src/index.html'), // 수정된 경로
+      filename: 'index.html',
     }),
   ],
   mode: 'production', // 프로덕션 모드로 설정
