@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import axios from 'axios';
+import api from './../apis/api';
 
 interface AuthContextType {
   isLoggedIn: boolean;
   loginId: string;
-  login: (id: string) => void;
+  login: (id: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -14,24 +16,36 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loginId, setLoginId] = useState<string>("");
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    const storedLoginId = localStorage.getItem('loginId');
-    if(token && storedLoginId){
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (accessToken && refreshToken) {
       setIsLoggedIn(true);
-      setLoginId(storedLoginId);
     }
   }, []);
 
-  const login = (id: string) => {
-    localStorage.setItem('accessToken', 'mock-access-token');
-    localStorage.setItem('loginId', id);
-    setLoginId(id);
-    setIsLoggedIn(true);
+  const login = async (id: string, password: string) => {
+    try {
+      const response = await axios.post(`${api.admin}/login`, {
+        loginId: id,
+        password: password,
+      });
+
+      const { accessToken, refreshToken } = response.data.data.tokenInfo;
+      const loginId = response.data.data.loginId;
+
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+
+      setLoginId(loginId);
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   const logout = () => {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('loginId');
+    localStorage.removeItem('refreshToken');
     setLoginId("");
     setIsLoggedIn(false);
   };
