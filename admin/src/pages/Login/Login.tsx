@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
-import { submitLoginQuery } from '../../queries/loginQuery';
 import { useMutation } from "@tanstack/react-query";
 import useInput from "../../hooks/useInput";
 import { isEmpty } from "../../utils/validate";
-import { Cookies } from 'react-cookie';
 import { useAuth } from "../../context/AuthContext";
 
 const Login: React.FC = () => {
@@ -14,19 +12,14 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
     const [isError, setError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
-    const cookies = new Cookies();
     const { login } = useAuth();
 
     const submitLoginMutation = useMutation({
-      mutationFn: (formData: { loginId: string; password: string }) => {
+      mutationFn: async (formData: { loginId: string; password: string }) => {
         const { loginId, password } = formData;
-        return submitLoginQuery(loginId, password);
+        await login(loginId, password);
       },
-      onSuccess: (data: any) => {
-        localStorage.setItem('accessToken', data.tokenInfo.accessToken);
-        localStorage.setItem('refreshToken', data.tokenInfo.refreshToken);
-        cookies.set('accessToken', data.tokenInfo.accessToken, { path: '/'});
-        login(loginId.value);
+      onSuccess: () => {
         navigate("/main");
       },
       onError: () => {
