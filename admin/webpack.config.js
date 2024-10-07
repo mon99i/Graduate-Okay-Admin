@@ -4,7 +4,7 @@ module.exports = {
   entry: './src/index.tsx', // 엔트리 파일 설정
   output: {
     filename: 'bundle.js', // 출력 파일 이름
-    path: path.resolve(__dirname, 'dist'), // 출력 경로
+    path: path.resolve(__dirname, 'build'), // 출력 경로
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'], // 파일 확장자 처리
