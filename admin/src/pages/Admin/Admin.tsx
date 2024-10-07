@@ -17,9 +17,8 @@ const Admin: React.FC = () => {
     const [admins, setAdmins] = useState<AdminProps[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [pageCount, setPageCount] = useState(0);
-    const [loggedInId, setLoggedInId] = useState<string | null>(null);
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const { logout, loginId } = useAuth();
 
     const itemsPerPage = ITEMS_PER_PAGE;
 
@@ -32,13 +31,22 @@ const Admin: React.FC = () => {
     }
 
     const handleDeleteAdmin = async (id: number) => {
+        const token = localStorage.getItem('accessToken');
         const confirmDelete = window.confirm("관리자를 삭제하시겠습니까?");
         if (confirmDelete) {
             try {
-                if (loggedInId === process.env.REACT_APP_ADMIN_ID) {  
-                    await axios.delete(`${api.admin}/${id}`);
+                if (loginId === process.env.REACT_APP_ADMIN_ID) {  
+                    await axios.delete(`${api.admin}/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                 } else {
-                    await axios.delete(`${api.admin}`);
+                    await axios.delete(`${api.admin}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                     alert("계정이 삭제되어 로그인 화면으로 돌아갑니다.");
                     logout();
                 }
@@ -49,29 +57,35 @@ const Admin: React.FC = () => {
             }
         }
     };
-    
 
     const fetchAdmins = async (page: number = 0) => {
         try {
+            const token = localStorage.getItem('accessToken');
             const { data } = await axios.get(api.admin, {
-                params: { page, limit: itemsPerPage }
+                params: { page, limit: itemsPerPage },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
-            const { adminList, totalCount } = data.data;
+    
+            const { adminList } = data.data;
             const sortedAdmins = adminList.sort((a: AdminProps, b: AdminProps) => a.id - b.id);
-
-            setAdmins(sortedAdmins);
-            setPageCount(Math.ceil(totalCount / itemsPerPage));
+    
+            const filteredAdmins = loginId === process.env.REACT_APP_ADMIN_ID
+                ? sortedAdmins
+                : sortedAdmins.filter((admin: AdminProps) => admin.loginId === loginId);
+            setAdmins(filteredAdmins);
+            setPageCount(Math.ceil(filteredAdmins.length / itemsPerPage));
         } catch (error) {
             console.error("관리자 목록 조회 중 오류 발생", error);
         }
     };
+    
+    
 
     useEffect(() => {
         fetchAdmins(currentPage);
-
-        const storedLoginId = localStorage.getItem("loginId");
-        setLoggedInId(storedLoginId);
-    }, [currentPage]);
+    }, [currentPage, loginId]);
 
     const handlePageChange = (selectedItem: { selected: number }) => {
         setCurrentPage(selectedItem.selected);
@@ -88,10 +102,10 @@ const Admin: React.FC = () => {
                     onClick={handleNewAdmin}
                 >
                     <img
-                            src="/imgs/add.png"
-                            alt="새 관리자 등록"
-                            className="w-4 h-4 mr-1"
-                        />
+                        src="/imgs/add.png"
+                        alt="새 관리자 등록"
+                        className="w-4 h-4 mr-1"
+                    />
                     <span>관리자 등록</span>
                 </button>
             </div>
@@ -110,11 +124,7 @@ const Admin: React.FC = () => {
                 {currentAdmins.map((admin) => (
                     <tr key={admin.id} className="border hover:bg-gray-50">
                         <td className="border w-8 py-2 px-4">{admin.id}</td>
-                        <td className="w-32 border py-2 px-4">
-                            <div className='w-32 truncate'>
-                                {loggedInId !== admin.loginId && admin.id === 1 ? '*****' : admin.loginId}
-                            </div>
-                        </td>
+                        <td className="w-32 border py-2 px-4">{admin.loginId}</td>
                         <td className="w-32 border py-2 px-4">
                             <div className='w-32'>{admin.createdAt}</div>
                         </td>
@@ -122,7 +132,6 @@ const Admin: React.FC = () => {
                             <div className='w-32'>{admin.updatedAt}</div>
                         </td>
                         <td className="w-8 border py-2 px-4">
-                            {loggedInId === admin.loginId && (
                             <button className="flex items-center">
                                 <img 
                                     src="/imgs/edit.png"
@@ -131,12 +140,11 @@ const Admin: React.FC = () => {
                                     onClick={() => handleEditAdmin(admin.id)}
                                 />
                             </button>
-                            )}
                         </td>
                         <td className="w-8 border py-2 px-4">
-                            { (loggedInId === process.env.REACT_APP_ADMIN_ID
-                                ? loggedInId !== admin.loginId
-                                : loggedInId === admin.loginId
+                            { (loginId === process.env.REACT_APP_ADMIN_ID
+                                ? loginId !== admin.loginId
+                                : loginId === admin.loginId
                             )
                             && (
                             <button className="flex items-center">
