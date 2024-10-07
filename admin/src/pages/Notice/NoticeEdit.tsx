@@ -12,8 +12,8 @@ const NoticeEdit: React.FC = () => {
     const fetchNotice = async () => {
         try {
             const { data } = await axios.get(`${api.notice}/${id}`);
-            setTitle(data.title);
-            setContent(data.content);
+            setTitle(data.data.title);
+            setContent(data.data.content);
         } catch (error) {
             console.error("Error fetching notice:", error);
         }
@@ -27,11 +27,15 @@ const NoticeEdit: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        const token = localStorage.getItem('accessToken');
         try {
             await axios.patch(`${api.notice}/${id}`, {
                 title,
                 content
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             });
             alert('공지사항이 성공적으로 수정되었습니다.');
             navigate(`/notice/${id}`);

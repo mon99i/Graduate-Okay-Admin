@@ -18,17 +18,22 @@ const NoticeDetail: React.FC = () => {
     const fetchNotice = async (id: string) => {
         try {
             const { data } = await axios.get(`${api.notice}/${id}`);
-            setNotice(data);    
+            setNotice(data.data);
         } catch (error) {
             console.error("Error fetching notice:", error);
         }
     };
 
     const handleDelete = async () => {
+        const token = localStorage.getItem('accessToken');
         const confirmDelete = window.confirm("삭제하시겠습니까?");
         if (confirmDelete && id) {
             try {
-                await axios.delete(`${api.notice}/${id}`);
+                await axios.delete(`${api.notice}/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 alert("삭제가 완료되었습니다.");
                 navigate('/notice');
             } catch (error) {
@@ -84,7 +89,7 @@ const NoticeDetail: React.FC = () => {
                     />
                 </button>
             </div>
-            <div className="px-3 py-2 whitespace-pre-wrap">{notice.content}</div>
+            <div className="py-2 whitespace-pre-wrap">{notice.content}</div>
         </div>
     );
 };

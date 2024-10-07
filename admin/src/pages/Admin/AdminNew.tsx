@@ -16,7 +16,12 @@ const SignUpForm = () => {
 
     const checkLoginId = async () => {
         try {
-            const { data: { data: { adminList } } } = await axios.get(`${api.admin}`);
+            const token = localStorage.getItem('accessToken');
+            const { data: { data: { adminList } } } = await axios.get(`${api.admin}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             const adminExists = adminList.some(({ loginId: adminLoginId }: { loginId: string }) => adminLoginId === loginId);
     
             if (adminExists) {
@@ -47,7 +52,7 @@ const SignUpForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+        const token = localStorage.getItem('accessToken');
         const isLoginIdValid = await checkLoginId();
         const isPasswordValid = checkPassword();
         
@@ -57,7 +62,12 @@ const SignUpForm = () => {
         }
 
         try {
-            await axios.post(`${api.admin}`, { loginId, password });
+            await axios.post(`${api.admin}`, { loginId, password },
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             alert("관리자 등록 성공!");
             navigate('/admin');
         } catch (error) {

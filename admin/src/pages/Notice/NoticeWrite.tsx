@@ -10,14 +10,19 @@ const NoticeWrite: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+    
         try {
+            const token = localStorage.getItem('accessToken');
             const response = await axios.post(`${api.notice}`, {
                 title,
                 content
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             });
-
-            if (response.status === 201) {
+    
+            if (response.status === 200) {
                 alert('공지사항이 성공적으로 등록되었습니다.');
                 navigate('/notice');
             }
@@ -26,7 +31,7 @@ const NoticeWrite: React.FC = () => {
             alert('공지사항 등록 중 오류가 발생했습니다.');
         }
     };
-
+    
     const handleCancel = () => {
         navigate('/notice');
     };

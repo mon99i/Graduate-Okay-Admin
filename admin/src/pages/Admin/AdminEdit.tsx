@@ -35,7 +35,12 @@ const AdminEdit = () => {
         }
 
         try {
-            await axios.patch(`${api.admin}/password`, {password});
+            const token = localStorage.getItem('accessToken');
+            await axios.patch(`${api.admin}/password`, {password}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             alert("관리자 비밀번호 변경 성공!");
             navigate('/admin');
         } catch (error) {
