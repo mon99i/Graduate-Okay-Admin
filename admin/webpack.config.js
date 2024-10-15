@@ -1,11 +1,11 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-module.exports = {
+export default {
   entry: './src/index.tsx', // 엔트리 파일 설정
   output: {
     filename: 'bundle.js', // 출력 파일 이름
-    path: path.resolve(__dirname, 'build'), // 출력 경로
+    path: path.resolve('build'), // 출력 경로
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'], // 파일 확장자 처리
@@ -21,12 +21,11 @@ module.exports = {
         test: /\.css$/, // CSS 파일을 처리하기 위한 규칙
         use: ['style-loader', 'css-loader'], // 로더 설정
       },
-      // 추가적인 로더를 여기에 설정할 수 있음
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/index.html'), // 수정된 경로
+      template: path.resolve('src/index.html'), // 수정된 경로
       filename: 'index.html',
     }),
   ],
