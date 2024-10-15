@@ -7,7 +7,7 @@
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
-    "airbnb-base",
+    "react-app",
     "prettier" 
   ],
   "plugins": ["@typescript-eslint", "react", "jsx-a11y", "prettier"],

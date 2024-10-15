@@ -1,4 +1,5 @@
 import path from 'path';
+import webpack from 'webpack'; // webpack 추가
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
@@ -27,6 +28,11 @@ export default {
     new HtmlWebpackPlugin({
       template: path.resolve('src/index.html'), // 수정된 경로
       filename: 'index.html',
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'), // 브라우저용으로 NODE_ENV 설정
+      },
     }),
   ],
   mode: 'production', // 프로덕션 모드로 설정
