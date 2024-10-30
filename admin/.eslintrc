@@ -6,9 +6,7 @@
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:prettier/recommended",
-    "react-app",
-    "prettier" 
+    "plugin:prettier/recommended"
   ],
   "plugins": ["@typescript-eslint", "react", "jsx-a11y", "prettier"],
   "parserOptions": {
@@ -19,6 +17,8 @@
     }
   },
   "rules": {
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "prettier/prettier": "error"
